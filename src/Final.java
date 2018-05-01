@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -17,7 +16,9 @@ public class Final {
 	// This will act as our program switchboard
 	public Final() throws FileNotFoundException {
 		
-		ArrayList<Item> cargohold = new ArrayList<Item>();
+		//ArrayList<Item> cargohold = new ArrayList<Item>();
+		LinkedList cargohold = new LinkedList();
+		
 		java.io.File file = new java.io.File("data.txt");
 		if(file.exists()) {loadData(file, cargohold);};
 		
@@ -84,7 +85,7 @@ public class Final {
 
 	}
 
-	private void addItem(ArrayList<Item> cargohold) {
+	private void addItem(LinkedList<Item> cargohold) {
 		Item tempItem = new Item();
 		System.out.println("Enter the Item's name");
 		String userInput = input.next();
@@ -119,7 +120,7 @@ public class Final {
 		return;
 	}
 
-	private void removeItem(ArrayList<Item> cargohold) {
+	private void removeItem(LinkedList<Item> cargohold) {
 		if(cargohold.size() == 0) {
 			System.out.println("The cargohold has no items to remove!");
 			return;
@@ -151,7 +152,7 @@ public class Final {
 		}
 	}
 	
-	private void sortItems(ArrayList<Item> cargohold) {
+	private void sortItems(LinkedList<Item> cargohold) {
 		
 		sort(cargohold, Item.ItemNameComparator);
 		
@@ -159,7 +160,7 @@ public class Final {
 		return;
 	}
 
-	private void searchItems(ArrayList<Item> cargohold) {
+	private void searchItems(LinkedList<Item> cargohold) {
 		while(true) {
 			// Give the user a list of their options
 			System.out.println("1: Search: Name");      
@@ -216,7 +217,7 @@ public class Final {
 		}
 	}
 
-	private void displayItems(ArrayList<Item> cargohold) {
+	private void displayItems(LinkedList<Item> cargohold) {
 		if(cargohold.size() <= 0) {
 			System.out.println("No items in the cargohold to display.");
 			return;
@@ -235,7 +236,7 @@ public class Final {
 		}
 	}
 	
-	private float getCargoholdWeight(ArrayList<Item> cargohold) {
+	private float getCargoholdWeight(LinkedList<Item> cargohold) {
 		float cargoholdWeight = 0;
 		for(int i = 0; i < cargohold.size(); i++) {
 			cargoholdWeight = cargoholdWeight + cargohold.get(i).weight;
@@ -249,7 +250,7 @@ public class Final {
 	  return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
 	}
 	
-	public static void storeData(File file, ArrayList<Item> cargohold) {
+	public static void storeData(File file, LinkedList<Item> cargohold) {
 		if(cargohold.size() <= 0) {
 			return;
 		}
@@ -273,7 +274,7 @@ public class Final {
 		}
 	}
 	
-	public static void loadData(File file, ArrayList<Item> cargohold) throws FileNotFoundException {
+	public static void loadData(File file, LinkedList<Item> cargohold) throws FileNotFoundException {
 		if(file.exists()) {
 			Scanner input = new Scanner(file);
 			while(input.hasNext()) {
@@ -300,7 +301,7 @@ public class Final {
         }
 	}
 
-	public static void ransackConstructor(File file, ArrayList<Item> cargohold) {
+	public static void ransackConstructor(File file, LinkedList<Item> cargohold) {
 		int[] val = new int[cargohold.size()];
 		int[] wt = new int[cargohold.size()];;
 		String[] names = new String[cargohold.size()];
