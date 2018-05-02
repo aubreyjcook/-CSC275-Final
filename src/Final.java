@@ -16,7 +16,7 @@ public class Final {
 	// This will act as our program switchboard
 	public Final() throws FileNotFoundException {
 		
-		//ArrayList<Item> cargohold = new ArrayList<Item>();
+		//ArrayList cargohold = new ArrayList();
 		LinkedList cargohold = new LinkedList();
 		
 		java.io.File file = new java.io.File("data.txt");
@@ -33,8 +33,8 @@ public class Final {
 			System.out.println("3: Sort the contents of the cargo hold.");
 			System.out.println("4: Search for an item.");
 			System.out.println("5: Display the items in the cargo hold.");
-			System.out.println("6: Erase the cargo hold data manifest.");
-			System.out.println("9: Output optimal value for items currently held in the cargohold at maximum weight capacity.");
+			System.out.println("6: Output optimal value for items currently held in the cargohold at maximum weight capacity.");
+			System.out.println("9: Erase the cargo hold data manifest.");
 			System.out.println("0: Exit the BlackStar Cargo Hold interface.");
 
 			// Get the user input
@@ -62,8 +62,7 @@ public class Final {
 					displayItems(cargohold);
 					break;
 				case 6:
-					cargohold.clear();
-					eraseFile(file);
+					ransackConstructor(file, cargohold);
 					break;
 				case 7:
 					storeData(file, cargohold);
@@ -72,7 +71,8 @@ public class Final {
 					loadData(file, cargohold);
 					break;
 				case 9:
-					ransackConstructor(file, cargohold);
+					//cargohold.clear();
+					eraseFile(file);
 					break;
 				case 0:
 					System.out.println("Thank you for using the BlackStar Cargo Hold interface. See you again soon!");
@@ -85,7 +85,7 @@ public class Final {
 
 	}
 
-	private void addItem(LinkedList<Item> cargohold) {
+	private void addItem(LinkedList cargohold) {
 		Item tempItem = new Item();
 		System.out.println("Enter the Item's name");
 		String userInput = input.next();
@@ -120,7 +120,7 @@ public class Final {
 		return;
 	}
 
-	private void removeItem(LinkedList<Item> cargohold) {
+	private void removeItem(LinkedList cargohold) {
 		if(cargohold.size() == 0) {
 			System.out.println("The cargohold has no items to remove!");
 			return;
@@ -141,26 +141,21 @@ public class Final {
 			return;		
 		}
 	}
+
+	public static <T> void sort(LinkedList cargohold, Comparator<Item> itemNameComparator) {
+		cargohold.head = cargohold.mergeSort(cargohold.head);
 	
-	public static <T> void sort(List<T> list, Comparator<? super T> c) {
-		Object[] a = list.toArray();
-		Arrays.sort(a, (Comparator)c);
-		ListIterator i = list.listIterator();
-		for (int j=0; j<a.length; j++) {
-			i.next();
-			i.set(a[j]);
-		}
 	}
 	
-	private void sortItems(LinkedList<Item> cargohold) {
+	private void sortItems(LinkedList cargohold) {
 		
 		sort(cargohold, Item.ItemNameComparator);
 		
 		System.out.println("cargohold sorted.");
 		return;
 	}
-
-	private void searchItems(LinkedList<Item> cargohold) {
+	
+	private void searchItems(LinkedList cargohold) {
 		while(true) {
 			// Give the user a list of their options
 			System.out.println("1: Search: Name");      
@@ -217,7 +212,7 @@ public class Final {
 		}
 	}
 
-	private void displayItems(LinkedList<Item> cargohold) {
+	private void displayItems(LinkedList cargohold) {
 		if(cargohold.size() <= 0) {
 			System.out.println("No items in the cargohold to display.");
 			return;
@@ -236,7 +231,7 @@ public class Final {
 		}
 	}
 	
-	private float getCargoholdWeight(LinkedList<Item> cargohold) {
+	private float getCargoholdWeight(LinkedList cargohold) {
 		float cargoholdWeight = 0;
 		for(int i = 0; i < cargohold.size(); i++) {
 			cargoholdWeight = cargoholdWeight + cargohold.get(i).weight;
@@ -250,7 +245,7 @@ public class Final {
 	  return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
 	}
 	
-	public static void storeData(File file, LinkedList<Item> cargohold) {
+	public static void storeData(File file, LinkedList cargohold) {
 		if(cargohold.size() <= 0) {
 			return;
 		}
@@ -274,7 +269,7 @@ public class Final {
 		}
 	}
 	
-	public static void loadData(File file, LinkedList<Item> cargohold) throws FileNotFoundException {
+	public static void loadData(File file, LinkedList cargohold) throws FileNotFoundException {
 		if(file.exists()) {
 			Scanner input = new Scanner(file);
 			while(input.hasNext()) {
@@ -301,7 +296,7 @@ public class Final {
         }
 	}
 
-	public static void ransackConstructor(File file, LinkedList<Item> cargohold) {
+	public static void ransackConstructor(File file, LinkedList cargohold) {
 		int[] val = new int[cargohold.size()];
 		int[] wt = new int[cargohold.size()];;
 		String[] names = new String[cargohold.size()];
@@ -345,17 +340,6 @@ public class Final {
 					//skips item if it overrides weight requirements
 					V[item][weight]=V[item-1][weight];
 				}
-				
-				/*
-				for (int[] rows : V) {
-		            for (int col : rows) {
-
-		                System.out.format("%5d", col);
-		            }
-		            System.out.println();
-		        }
-				*/
-		        
 			}
 		}
 		return V[N][W];
