@@ -1,7 +1,4 @@
-import java.util.ListIterator;
-
-
-public class LinkedList{
+public class LinkedList {
 	public Node head;
 	public static int size;
 	
@@ -11,7 +8,6 @@ public class LinkedList{
 	}
 	
 	public void add(Item dataValue) {
-		
 		if (head == null) {
 			head = new Node(dataValue);
 		}
@@ -91,51 +87,60 @@ public class LinkedList{
 		return false;
 	}
 	
+	/*
+	public void move(Integer indexPrev, Integer indexNext) {
+		Node temp01 = new Node(get(indexPrev));
+		if(get(indexNext) != null) {
+			Node temp02 = new Node (get(indexPrev));
+		}
+		add(temp01, indexNext);
+	}
+	*/
+	
 	Node sortedMerge(Node a, Node b) {
 		Node result = null;
+		if (a == null)
+			return b;
+		if (b == null)
+			return a;
 		
-		if(a == null) return b;
-		if(b == null) return a;
-		
-		if(a.getData().equals(b.getData())) {
+		if((a.getData().name).compareTo(b.getData().name) <= 0) {
 			result = a;
 			result.next = sortedMerge(a.next, b);
-		} else
-		{
-			result = b;
-			result.next = sortedMerge(a, b.next);
 		}
 		
 		return result;
 	}
 	
-	Node mergeSort(Node h) {
-		if (h == null || h.next == null)
-        {
-            return h;
-        }
+	Node mergeSort(Node h)
+	{
+		if (h == null || h.next ==null)
+		{
+			return h;
+		}
 		
 		Node middle = getMiddle(h);
-        Node nextofmiddle = middle.next;
-        
-        middle.next = null;
-        
-        Node left = mergeSort(h);
-        
-        Node right = mergeSort(nextofmiddle);
-        
-        Node sortedlist = sortedMerge(left, right);
-		return sortedlist;
+		Node nextofmiddle = middle.next;
+		
+		middle.next = null;
+		
+		Node left = mergeSort(h);
+		Node right = mergeSort(nextofmiddle);
+		
+		Node sortedList = sortedMerge(left, right);
+		
+		return sortedList;
 	}
 	
 	Node getMiddle(Node h) {
 		if(h == null) return h;
-		Node fastptr = h.next;
+		
+		Node fastptr = h.next;		
 		Node slowptr = h;
 		
-		while (fastptr != null) {
-			fastptr = fastptr.next;
-			if(fastptr != null) {
+		while(fastptr != null) {
+			if(fastptr != null)
+			{
 				slowptr = slowptr.next;
 				fastptr = fastptr.next;
 			}
@@ -143,7 +148,7 @@ public class LinkedList{
 		return slowptr;
 	}
 	
-	void push (Item newData) {
+	public void push(Item newData) {
 		Node newNode = new Node(newData);
 		
 		newNode.next = head;
@@ -151,16 +156,8 @@ public class LinkedList{
 		head = newNode;
 	}
 	
-	/*
-	@Override
-	public ListIterator<E> listIterator(int arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	*/
 	private class Node {
-		
-		
+				
 		Item data;
 	    
 		private Node next;
@@ -171,7 +168,8 @@ public class LinkedList{
 	    	data = dataValue;
 	    }
 	    
-	    public Node(Item dataValue, Node nextValue) {
+	    @SuppressWarnings("unused")
+		public Node(Item dataValue, Node nextValue) {
 	    	next = nextValue;
 	    	data = dataValue;
 	    }
@@ -184,7 +182,8 @@ public class LinkedList{
 	    	return next;
 	    }
 	    
-	    public void setData(Item dataValue) {
+	    @SuppressWarnings("unused")
+		public void setData(Item dataValue) {
 	    	data = dataValue;
 	    }
         	    

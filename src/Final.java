@@ -1,9 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.Scanner;
 
 public class Final {
@@ -16,7 +13,6 @@ public class Final {
 	// This will act as our program switchboard
 	public Final() throws FileNotFoundException {
 		
-		//ArrayList cargohold = new ArrayList();
 		LinkedList cargohold = new LinkedList();
 		
 		java.io.File file = new java.io.File("data.txt");
@@ -53,7 +49,7 @@ public class Final {
 					break;
 				case 3:
 					sortItems(cargohold);
-					storeData(file, cargohold);
+					//storeData(file, cargohold);
 					break;
 				case 4:
 					searchItems(cargohold);
@@ -142,9 +138,19 @@ public class Final {
 		}
 	}
 
-	public static <T> void sort(LinkedList cargohold, Comparator<Item> itemNameComparator) {
+	public static <E> void sort(LinkedList cargohold, Comparator<Item> itemNameComparator) {
 		cargohold.head = cargohold.mergeSort(cargohold.head);
-	
+		/*
+		Item temp = new Item();
+		temp = cargohold.get(cargohold.size());
+		cargohold.add(temp, 1);
+		*/
+		//move(cargohold, 0, cargohold.size());
+		//cargohold.moveLast();
+		
+		//display(cargohold, cargohold.size());
+		//cargohold.push(cargohold.get(cargohold.size() - 1));
+		
 	}
 	
 	private void sortItems(LinkedList cargohold) {
@@ -153,6 +159,23 @@ public class Final {
 		
 		System.out.println("cargohold sorted.");
 		return;
+	}
+	
+	public static void move(LinkedList cargohold, Integer indexPrev, Integer indexNext) {
+		Item temp01 = new Item();
+		temp01 = cargohold.get(indexPrev);
+		if(cargohold.get(indexNext) != null) {
+			Item temp02 = new Item();
+			temp02 = cargohold.get(indexNext);
+			
+			cargohold.remove(indexNext);
+			cargohold.add(temp01, indexNext);
+			cargohold.remove(indexPrev);
+			cargohold.add(temp02, indexPrev);
+		} else {
+			cargohold.add(temp01, indexNext);
+			cargohold.remove(indexPrev);
+		}
 	}
 	
 	private void searchItems(LinkedList cargohold) {
@@ -220,15 +243,19 @@ public class Final {
 		else {
 			System.out.println("--------------------------------");
 			for(int i = 0; i < cargohold.size(); i++) {
-					System.out.println("Item ID: "         + cargohold.get(i).ID);
-					System.out.println("Item Name: "       + cargohold.get(i).name);
-					System.out.println("Item Weight: "     + cargohold.get(i).weight);
-					System.out.println("Item Value: "      + cargohold.get(i).value);
-					System.out.println("Item Durability: " + cargohold.get(i).durability);
-					System.out.println("--------------------------------");
+					display(cargohold, i);
 			}
 			return;
 		}
+	}
+	
+	private static void display(LinkedList cargohold, int index) {
+		System.out.println("Item ID: "         + cargohold.get(index).ID);
+		System.out.println("Item Name: "       + cargohold.get(index).name);
+		System.out.println("Item Weight: "     + cargohold.get(index).weight);
+		System.out.println("Item Value: "      + cargohold.get(index).value);
+		System.out.println("Item Durability: " + cargohold.get(index).durability);
+		System.out.println("--------------------------------");
 	}
 	
 	private float getCargoholdWeight(LinkedList cargohold) {
